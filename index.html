@@ -1,0 +1,731 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>降伏十魔軍｜夢境入口</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600&display=swap');
+
+:root {
+  --cream: #e8e0d7;
+  --pink: #d8b8c7;
+  --ink: #27242c;
+  --glass: rgba(28, 25, 36, .72);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #171722;
+  color: var(--cream);
+  font-family: 'Noto Serif TC', serif;
+  overflow: hidden;
+}
+
+button { font-family: inherit; cursor: pointer; }
+
+/* 開場 */
+
+#opening {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  background:
+    radial-gradient(ellipse at 50% 40%, #9b829e55, transparent 50%),
+    linear-gradient(160deg, #252638, #11131c 75%);
+  transition: opacity 1.5s;
+}
+
+.opening-small {
+  font-size: 11px;
+  letter-spacing: 8px;
+  color: #c9b9c8;
+  margin-bottom: 35px;
+}
+
+.opening-title {
+  font-size: clamp(32px, 6vw, 66px);
+  letter-spacing: 13px;
+  font-weight: 400;
+  text-shadow: 0 0 35px #d6c0df66;
+}
+
+.opening-sub {
+  font-size: 13px;
+  letter-spacing: 5px;
+  color: #b8aebd;
+  margin-top: 20px;
+}
+
+.enter-btn {
+  margin-top: 65px;
+  padding: 13px 40px;
+  border: 1px solid #c6b4c9;
+  background: transparent;
+  color: #eee4eb;
+  letter-spacing: 5px;
+  transition: .4s;
+}
+
+.enter-btn:hover {
+  background: #e5d4e2;
+  color: #252333;
+  box-shadow: 0 0 30px #d7badb66;
+}
+
+/* 劇場畫面 */
+
+#theater {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  background: #282638;
+}
+
+#scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(to bottom, #aaa2ae 0%, #817c8d 45%, #38394b 100%);
+  transition: filter 1.5s, transform 2s;
+}
+
+/* 空間的光 */
+
+#scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 36%, #e6d8df55, transparent 35%),
+    linear-gradient(90deg, #20213055, transparent 30%, transparent 70%, #20213066);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 走廊 */
+
+.corridor {
+  position: absolute;
+  width: 75%;
+  height: 100%;
+  left: 12.5%;
+  background:
+    linear-gradient(90deg, #373647 0%, #777083 18%, #aaa0a8 50%, #777083 82%, #373647 100%);
+  clip-path: polygon(25% 0, 75% 0, 100% 100%, 0 100%);
+  opacity: .8;
+}
+
+.floor {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 42%;
+  background:
+    linear-gradient(170deg, transparent 0%, #b5a7ad55 2%, #494655 85%),
+    repeating-linear-gradient(90deg, transparent 0 18%, #ffffff0b 19% 19.2%);
+  clip-path: polygon(30% 0, 70% 0, 100% 100%, 0 100%);
+}
+
+.ceiling {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 23%;
+  background: linear-gradient(#363447, #888091);
+  clip-path: polygon(0 0, 100% 0, 70% 100%, 30% 100%);
+}
+
+/* 遠處的門 */
+
+.distant-door {
+  position: absolute;
+  width: 13%;
+  height: 43%;
+  left: 43.5%;
+  top: 23%;
+  background: linear-gradient(90deg, #34303e, #736676, #34303e);
+  border: 3px solid #b8aab9;
+  box-shadow: 0 0 40px #d8c0d855;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.distant-door::after {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #e6d5a8;
+  right: 12%;
+  top: 55%;
+  box-shadow: 0 0 12px #fff3c8;
+}
+
+/* 天花板燈 */
+
+.light {
+  position: absolute;
+  top: 12%;
+  left: 47%;
+  width: 6%;
+  height: 9px;
+  background: #e7dce4;
+  box-shadow: 0 0 45px 20px #eee0e855;
+  z-index: 3;
+  animation: flicker 5s infinite;
+}
+
+@keyframes flicker {
+  0%, 92%, 100% { opacity: 1; }
+  94% { opacity: .25; }
+  96% { opacity: .8; }
+}
+
+/* 夢核霧氣 */
+
+.fog {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(90deg, #d4c1d00c, #e3d5df22, #d4c1d00c);
+  filter: blur(25px);
+  animation: fogMove 12s ease-in-out infinite alternate;
+}
+
+@keyframes fogMove {
+  from { transform: translateX(-5%) scale(1); }
+  to { transform: translateX(5%) scale(1.15); }
+}
+
+/* 物品熱點 */
+
+.hotspot {
+  position: absolute;
+  z-index: 6;
+  border: 1px solid #e7d8df66;
+  background: #e9dce511;
+  color: #fff;
+  padding: 9px 15px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  backdrop-filter: blur(5px);
+  transition: .3s;
+}
+
+.hotspot:hover {
+  background: #e9dce544;
+  box-shadow: 0 0 25px #f2dce855;
+}
+
+#doorSpot { left: 45%; top: 55%; }
+#mirrorSpot { left: 8%; bottom: 27%; }
+#clockSpot { right: 9%; top: 34%; }
+
+/* 鏡頭模式 */
+
+body.god-view #scene {
+  transform: scale(.88);
+  filter: saturate(.7) brightness(.78);
+}
+
+body.god-view #scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #17152233;
+  z-index: 5;
+}
+
+body.god-view .hotspot { opacity: 0; pointer-events: none; }
+
+/* 角落資訊 */
+
+.top-info {
+  position: absolute;
+  top: 25px;
+  left: 35px;
+  z-index: 8;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: #f2e8edaa;
+}
+
+.mode {
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  z-index: 8;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #e6d9e1aa;
+}
+
+/* 對話框 */
+
+#dialogue {
+  position: absolute;
+  z-index: 10;
+  left: 50%;
+  bottom: 4%;
+  transform: translateX(-50%);
+  width: min(850px, 90%);
+  min-height: 165px;
+  padding: 24px 32px;
+  background: var(--glass);
+  border: 1px solid #e6d5e333;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 0 50px #09091155;
+}
+
+#speaker {
+  font-size: 12px;
+  letter-spacing: 5px;
+  color: #d8b5cc;
+  margin-bottom: 13px;
+}
+
+#words {
+  font-size: 15px;
+  line-height: 2.1;
+  letter-spacing: 1px;
+  min-height: 52px;
+  color: #eee7ed;
+}
+
+.dialogue-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+}
+
+#nextBtn, .choice {
+  color: #e8dce5;
+  background: transparent;
+  border: 1px solid #d9c8d355;
+  padding: 9px 19px;
+  font-size: 12px;
+  letter-spacing: 3px;
+  transition: .3s;
+}
+
+#nextBtn:hover, .choice:hover {
+  background: #d9c8d344;
+}
+
+#choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* 提示 */
+
+#hint {
+  position: absolute;
+  z-index: 8;
+  bottom: 205px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #f2e7edaa;
+  white-space: nowrap;
+  animation: breathe 3s infinite;
+}
+
+@keyframes breathe {
+  50% { opacity: .35; }
+}
+
+/* 轉場 */
+
+#transition {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  background: #101018;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.4s;
+}
+
+#transition.active { opacity: 1; }
+
+/* 魔君出場 */
+
+.demon-title {
+  position: absolute;
+  z-index: 7;
+  left: 50%;
+  top: 36%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(30px, 5vw, 55px);
+  letter-spacing: 15px;
+  white-space: nowrap;
+  color: #eee2ec;
+  text-shadow: 0 0 30px #e7c6e888;
+  animation: appear 3s ease both;
+}
+
+@keyframes appear {
+  from { opacity: 0; filter: blur(15px); }
+  to { opacity: 1; filter: blur(0); }
+}
+
+@media(max-width:600px) {
+  .top-info { left: 15px; }
+  .mode { right: 15px; }
+  #dialogue { padding: 19px; bottom: 2%; }
+  #words { font-size: 14px; }
+  #hint { bottom: 195px; }
+  .hotspot { font-size: 10px; padding: 7px 9px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 開場 -->
+<div id="opening">
+  <div class="opening-small">A DREAM YOU CANNOT ESCAPE</div>
+  <div class="opening-title">降伏十魔軍</div>
+  <div class="opening-sub">你的心裡，今天住著誰？</div>
+  <button class="enter-btn" onclick="startStory()">進入夢境</button>
+</div>
+
+<!-- 劇場 -->
+<div id="theater">
+
+  <div id="scene">
+    <div class="ceiling"></div>
+    <div class="corridor"></div>
+    <div class="floor"></div>
+    <div class="light"></div>
+    <div class="distant-door" onclick="interact('door')"></div>
+    <div class="fog"></div>
+
+    <button class="hotspot" id="doorSpot"
+      onclick="interact('door')">靠近那扇門</button>
+
+    <button class="hotspot" id="mirrorSpot"
+      onclick="interact('mirror')">查看鏡子</button>
+
+    <button class="hotspot" id="clockSpot"
+      onclick="interact('clock')">查看時鐘</button>
+  </div>
+
+  <div class="top-info">降伏十魔軍 / UNKNOWN WORLD</div>
+  <div class="mode" id="mode">FIRST PERSON VIEW</div>
+
+  <div id="hint">點擊周圍的物件，或繼續前進</div>
+
+  <div id="dialogue">
+    <div id="speaker">旁白</div>
+    <div id="words"> </div>
+    <div id="choices"></div>
+    <div class="dialogue-bottom">
+      <span style="font-size:10px;letter-spacing:3px;color:#c9b8c888">
+        DREAM THEATER
+      </span>
+      <button id="nextBtn" onclick="nextLine()">繼續　⌄</button>
+    </div>
+  </div>
+
+  <div id="transition"></div>
+</div>
+
+<script>
+const opening = document.getElementById("opening");
+const speaker = document.getElementById("speaker");
+const words = document.getElementById("words");
+const nextBtn = document.getElementById("nextBtn");
+const choices = document.getElementById("choices");
+const hint = document.getElementById("hint");
+const mode = document.getElementById("mode");
+const transition = document.getElementById("transition");
+
+let currentScene = "intro";
+let lineIndex = 0;
+let busy = false;
+let interacted = {
+  mirror: false,
+  clock: false,
+  door: false
+};
+
+const scripts = {
+
+  intro: [
+    ["旁白", "你有沒有過這樣的經驗？明明只是閉上眼睛，卻像是走進了另一個世界。", "god"],
+    ["旁白", "那裡的時間不會流動，熟悉的事物變得陌生，而你……似乎不應該出現在這裡。", "god"],
+    ["你", "……這是哪裡？", "first"],
+    ["旁白", "你緩緩睜開眼睛。眼前是一條看不見盡頭的走廊。", "first"],
+    ["旁白", "四周安靜得不自然。只有遠處的燈光，像是在等待著誰。", "first"],
+    ["旁白", "你發現，自己似乎可以自由探索這個地方。", "first"]
+  ],
+
+  mirror: [
+    ["你", "這面鏡子……為什麼看起來這麼熟悉？", "first"],
+    ["旁白", "鏡中的走廊與眼前完全相同。只有一個地方不一樣。", "god"],
+    ["？？？", "你還在等那個已經不會回來的人嗎？", "god"],
+    ["你", "……誰在說話？", "first"]
+  ],
+
+  clock: [
+    ["你", "時鐘停住了？可是……它為什麼還有聲音？", "first"],
+    ["旁白", "秒針停在十二點。滴答聲卻仍然持續著。", "god"],
+    ["？？？", "有些事情，明明已經過去了，卻始終沒有結束。", "god"]
+  ],
+
+  door: [
+    ["旁白", "你走向那扇門。門後似乎傳來微弱的聲音。", "first"],
+    ["？？？", "……你終於來了。", "god"],
+    ["你", "你是誰？", "first"],
+    ["？？？", "進來吧。你不是一直都想知道，自己為什麼放不下嗎？", "god"]
+  ],
+
+  ending: [
+    ["旁白", "眼前的空間開始扭曲，走廊像一張被揉皺的紙，逐漸向內塌陷。", "god"],
+    ["旁白", "你試圖轉身，卻發現身後已經沒有來時的路。", "first"],
+    ["？？？", "歡迎來到我的世界。", "god"]
+  ]
+};
+
+function startStory() {
+  opening.style.opacity = "0";
+  setTimeout(() => opening.style.display = "none", 1500);
+  showScript("intro");
+}
+
+function showScript(name) {
+  currentScene = name;
+  lineIndex = 0;
+  hint.style.display = "none";
+  showLine();
+}
+
+function showLine() {
+  const line = scripts[currentScene][lineIndex];
+  if (!line) return;
+
+  speaker.textContent = line[0];
+  words.textContent = line[1];
+
+  setView(line[2]);
+
+  choices.innerHTML = "";
+  nextBtn.style.display = "block";
+}
+
+function nextLine() {
+  if (busy) return;
+
+  lineIndex++;
+
+  if (lineIndex < scripts[currentScene].length) {
+    showLine();
+    return;
+  }
+
+  finishScene();
+}
+
+function setView(view) {
+  if (view === "god") {
+    document.body.classList.add("god-view");
+    mode.textContent = "CINEMATIC VIEW";
+  } else {
+    document.body.classList.remove("god-view");
+    mode.textContent = "FIRST PERSON VIEW";
+  }
+}
+
+function finishScene() {
+  if (currentScene === "intro") {
+    speaker.textContent = "旁白";
+    words.textContent = "你可以自由探索。也許這裡的每一件物品，都藏著某個人的記憶。";
+    nextBtn.style.display = "none";
+    hint.style.display = "block";
+  }
+
+  else if (currentScene === "mirror" || currentScene === "clock") {
+    speaker.textContent = "旁白";
+    words.textContent = "那個聲音消失了。可是，你感覺到有什麼正在注視著你。";
+    nextBtn.style.display = "none";
+    hint.style.display = "block";
+  }
+
+  else if (currentScene === "door") {
+    nextBtn.style.display = "none";
+    showChoices([
+      ["推開門，走進去", enterDemon],
+      ["再等等……", returnExplore]
+    ]);
+  }
+
+  else if (currentScene === "ending") {
+    nextBtn.style.display = "none";
+    showChoices([
+      ["進入憂愁魔的世界", () => enterDemon(true)],
+      ["返回未知空間", returnExplore]
+    ]);
+  }
+}
+
+function interact(object) {
+  if (currentScene !== "intro" &&
+      currentScene !== "mirror" &&
+      currentScene !== "clock" &&
+      currentScene !== "door") return;
+
+  if (object === "mirror") {
+    if (interacted.mirror) {
+      simpleMessage("你", "鏡子裡的自己，似乎比剛才更加模糊了。");
+      return;
+    }
+    interacted.mirror = true;
+    showScript("mirror");
+  }
+
+  if (object === "clock") {
+    if (interacted.clock) {
+      simpleMessage("旁白", "秒針仍停在十二點。");
+      return;
+    }
+    interacted.clock = true;
+    showScript("clock");
+  }
+
+  if (object === "door") {
+    if (interacted.door) {
+      simpleMessage("旁白", "門後的聲音再次響起。");
+      return;
+    }
+    interacted.door = true;
+    showScript("door");
+  }
+}
+
+function simpleMessage(name, text) {
+  speaker.textContent = name;
+  words.textContent = text;
+  nextBtn.style.display = "none";
+  hint.style.display = "block";
+}
+
+function showChoices(items) {
+  choices.innerHTML = "";
+  items.forEach(([label, action]) => {
+    const btn = document.createElement("button");
+    btn.className = "choice";
+    btn.textContent = label;
+    btn.onclick = action;
+    choices.appendChild(btn);
+  });
+}
+
+function returnExplore() {
+  choices.innerHTML = "";
+  nextBtn.style.display = "none";
+  document.body.classList.remove("god-view");
+  mode.textContent = "FIRST PERSON VIEW";
+  speaker.textContent = "旁白";
+  words.textContent = "你仍然站在走廊裡。那扇門，似乎還在等待你。";
+  hint.style.display = "block";
+}
+
+function enterDemon(forceSorrow = false) {
+  if (busy) return;
+  busy = true;
+
+  transition.classList.add("active");
+
+  setTimeout(() => {
+    const demons = [
+      "憂愁魔",
+      "尚未設定的魔君 02",
+      "尚未設定的魔君 03",
+      "尚未設定的魔君 04",
+      "尚未設定的魔君 05",
+      "尚未設定的魔君 06",
+      "尚未設定的魔君 07",
+      "尚未設定的魔君 08",
+      "尚未設定的魔君 09",
+      "尚未設定的魔君 10"
+    ];
+
+    const selected = forceSorrow
+      ? demons[0]
+      : demons[Math.floor(Math.random() * 10)];
+
+    document.getElementById("scene").innerHTML = `
+      <div class="ceiling"></div>
+      <div class="corridor"></div>
+      <div class="floor"></div>
+      <div class="light"></div>
+      <div class="fog"></div>
+      <div class="demon-title">${selected}</div>
+    `;
+
+    document.body.classList.add("god-view");
+    mode.textContent = "CINEMATIC VIEW";
+
+    choices.innerHTML = "";
+    speaker.textContent = "旁白";
+
+    if (selected === "憂愁魔") {
+      words.textContent =
+        "你掉進了一個被雨聲包圍的世界。這裡似乎收藏著無數不願被遺忘的回憶。";
+    } else {
+      words.textContent =
+        "你進入了一個尚未揭開面貌的世界。這裡的主人，似乎正在等待你的到來。";
+    }
+
+    transition.classList.remove("active");
+    nextBtn.style.display = "block";
+    nextBtn.textContent = "繼續";
+    nextBtn.onclick = () => demonOpening(selected);
+    busy = false;
+  }, 1500);
+}
+
+function demonOpening(selected) {
+  if (selected === "憂愁魔") {
+    speaker.textContent = "？？？";
+    words.textContent = "你知道嗎？有些人不是不想向前走，只是一直回頭看。";
+  } else {
+    speaker.textContent = "旁白";
+    words.textContent = "四周的景象逐漸清晰。你似乎需要先探索這個世界。";
+  }
+
+  nextBtn.textContent = "返回入口";
+  nextBtn.onclick = returnToEntrance;
+}
+
+function returnToEntrance() {
+  transition.classList.add("active");
+
+  setTimeout(() => {
+    location.reload();
+  }, 1500);
+}
+</script>
+
+</body>
+</html>
